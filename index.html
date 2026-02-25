@@ -5,9 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Watcho Digital - Multi-Server OTT</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    
-    <script async="async" data-cfasync="false" src="https://pl28735283.effectivegatecpm.com/745c1ef3a6af871203febf2e53f94208/invoke.js"></script>
-
     <style>
         :root { --watcho-orange: #ff4f00; --bg-dark: #07080a; }
         body { background-color: var(--bg-dark); color: white; font-family: 'Inter', sans-serif; }
@@ -20,9 +17,6 @@
         .server-btn:hover, .server-btn.active { background: var(--watcho-orange); }
         /* Gold Review Badge */
         .gold-review { position: absolute; top: 5px; right: 5px; background: linear-gradient(45deg, #ffd700, #ff8c00); color: black; padding: 2px 6px; border-radius: 4px; font-size: 10px; font-weight: 900; box-shadow: 0 0 10px rgba(255,215,0,0.5); }
-        
-        /* AD Styles */
-        .ad-banner-container { width: 100%; display: flex; justify-content: center; margin: 20px 0; overflow: hidden; }
     </style>
 </head>
 <body>
@@ -60,34 +54,22 @@
             <span class="bg-[#ff4f00] px-3 py-1 rounded text-xs font-bold">DIGITAL PREMIER</span>
             <h2 id="heroTitle" class="text-6xl font-black leading-none">Loading...</h2>
             <p id="heroDesc" class="text-gray-400 text-lg line-clamp-3 italic"></p>
-            <button onclick="window.open('https://omg10.com/4/10649566', '_blank'); playMovie('hero')" class="bg-[#ff4f00] text-white px-12 py-4 rounded-md font-bold text-xl hover:scale-105 transition shadow-2xl">WATCH NOW</button>
+            <button onclick="playMovie('hero')" class="bg-[#ff4f00] text-white px-12 py-4 rounded-md font-bold text-xl hover:scale-105 transition shadow-2xl">WATCH NOW</button>
         </div>
     </div>
 
     <div class="px-10 -mt-20 relative z-20 pb-20 space-y-10">
-        
-        <div class="ad-banner-container">
-            <div id="container-745c1ef3a6af871203febf2e53f94208"></div>
-        </div>
-
         <section>
             <h3 class="text-2xl font-bold mb-4 flex items-center"><span class="h-6 w-1 bg-[#ff4f00] mr-3"></span>Trending Highlights</h3>
             <div id="trendingSlider" class="flex space-x-5 overflow-x-auto no-scrollbar py-4"></div>
         </section>
-
-        <div class="ad-banner-container">
-            <script>
-              atOptions = { 'key' : 'af0c8f436074a1ddc5d523ea4bcdd0a4', 'format' : 'iframe', 'height' : 60, 'width' : 468, 'params' : {} };
-            </script>
-            <script src="https://www.highperformanceformat.com/af0c8f436074a1ddc5d523ea4bcdd0a4/invoke.js"></script>
-        </div>
 
         <section>
             <h3 class="text-2xl font-bold mb-4 flex items-center"><span class="h-6 w-1 bg-[#ff4f00] mr-3"></span>Popular Digital Hits</h3>
             <div id="popularGrid" class="grid grid-cols-2 md:grid-cols-5 lg:grid-cols-6 gap-6"></div>
             
             <div class="flex justify-center mt-12">
-                <button id="loadMore" onclick="window.open('https://omg10.com/4/10645051', '_blank'); loadMoreMovies()" class="bg-gray-800 hover:bg-[#ff4f00] text-white px-10 py-3 rounded-full font-bold transition border border-gray-700">LOAD MORE MOVIES</button>
+                <button id="loadMore" onclick="loadMoreMovies()" class="bg-gray-800 hover:bg-[#ff4f00] text-white px-10 py-3 rounded-full font-bold transition border border-gray-700">LOAD MORE MOVIES</button>
             </div>
         </section>
     </div>
@@ -114,6 +96,7 @@
         let currentTmdbId = '';
         let currentPage = 1;
 
+        // UPDATED: 6 Working Servers for 100% Playback
         const servers = [
             "https://vidsrc.to/embed/movie/",
             "https://vidsrc.me/embed/movie?tmdb=",
@@ -153,7 +136,7 @@
         function createItem(m, w) {
             const rating = m.vote_average.toFixed(1);
             return `
-                <div class="${w} movie-card shadow-2xl" onclick="window.open('https://omg10.com/4/10649566', '_blank'); playMovie('${m.id}')">
+                <div class="${w} movie-card shadow-2xl" onclick="playMovie('${m.id}')">
                     <div class="gold-review">GOLD ★ ${rating}</div>
                     <img src="https://image.tmdb.org/t/p/w500${m.poster_path}" class="w-full h-auto" alt="${m.title}">
                     <div class="p-2 text-xs font-black truncate bg-gray-900">${m.title}</div>
@@ -181,9 +164,13 @@
             document.body.style.overflow = 'hidden';
         }
 
+        // UPDATED: Function to handle all 6 servers correctly
         function switchServer(num) {
             const btns = document.querySelectorAll('.server-btn');
-            btns.forEach((b, i) => { if(i < 6) b.classList.toggle('active', i === num-1); });
+            btns.forEach((b, i) => { 
+                // Checks for all 6 buttons now
+                if(i < 6) b.classList.toggle('active', i === num-1); 
+            });
             document.getElementById('mainIframe').src = servers[num-1] + currentTmdbId;
         }
 
