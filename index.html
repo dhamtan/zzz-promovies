@@ -1,203 +1,247 @@
 <!DOCTYPE html>
 <html lang="hi">
 <head>
-    <meta charset="UTF-8"> name="google-site-verification" content="1XYvNp3KDylNaVS3TH15kSAKQHPIjMQZm_zIHLQBIt8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Watcho Digital - Multi-Server OTT</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    
-    <script async="async" data-cfasync="false" src="https://pl28735283.effectivegatecpm.com/745c1ef3a6af871203febf2e53f94208/invoke.js"></script>
-    <style>
-        :root { --watcho-orange: #ff4f00; --bg-dark: #07080a; }
-        body { background-color: var(--bg-dark); color: white; font-family: 'Inter', sans-serif; }
-        .no-scrollbar::-webkit-scrollbar { display: none; }
-        .movie-card { transition: all 0.3s ease; flex-shrink: 0; cursor: pointer; border-radius: 8px; overflow: hidden; position: relative; }
-        .movie-card:hover { transform: translateY(-10px) scale(1.05); border: 2px solid var(--watcho-orange); }
-        .hero-gradient { background: linear-gradient(to top, var(--bg-dark) 10%, transparent 100%); }
-        #playerOverlay { display: none; position: fixed; inset: 0; background: black; z-index: 9999; }
-        .server-btn { background: #222; padding: 8px 15px; border-radius: 5px; font-size: 12px; transition: 0.3s; }
-        .server-btn:hover, .server-btn.active { background: var(--watcho-orange); }
-        /* Gold Review Badge */
-        .gold-review { position: absolute; top: 5px; right: 5px; background: linear-gradient(45deg, #ffd700, #ff8c00); color: black; padding: 2px 6px; border-radius: 4px; font-size: 10px; font-weight: 900; box-shadow: 0 0 10px rgba(255,215,0,0.5); }
-    </style>
+<meta name="google-site-verification" content="1XYvNp3KDylNaVS3TH15kSAKQHPIjMQZm_zIHLQBIt8" />
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Watcho Digital - Multi-Server OTT</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<script async="async" data-cfasync="false" src="https://pl28735283.effectivegatecpm.com/745c1ef3a6af871203febf2e53f94208/invoke.js"></script>
+<style>
+:root {
+  --watcho-orange: #ff4f00;
+  --bg-dark: #07080a;
+}
+body {
+  background-color: var(--bg-dark);
+  color: white;
+  font-family: 'Inter', sans-serif;
+}
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.movie-card {
+  transition: all 0.3s ease;
+  flex-shrink: 0;
+  cursor: pointer;
+  border-radius: 8px;
+  overflow: hidden;
+  position: relative;
+}
+.movie-card:hover {
+  transform: translateY(-10px) scale(1.05);
+  border: 2px solid var(--watcho-orange);
+}
+.hero-gradient {
+  background: linear-gradient(to top, var(--bg-dark) 10%, transparent 100%);
+}
+#playerOverlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: black;
+  z-index: 9999;
+}
+.server-btn {
+  background: #222;
+  padding: 8px 15px;
+  border-radius: 5px;
+  font-size: 12px;
+  transition: 0.3s;
+}
+.server-btn:hover,
+.server-btn.active {
+  background: var(--watcho-orange);
+}
+/* Gold Review Badge */
+.gold-review {
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  background: linear-gradient(45deg, #ffd700, #ff8c00);
+  color: black;
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-size: 10px;
+  font-weight: 900;
+  box-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
+}
+</style>
 </head>
 <body>
+<nav class="fixed top-0 w-full z-[100] flex items-center justify-between px-8 py-4 bg-black/60 backdrop-blur-md">
+<div class="flex items-center space-x-10">
+<h1 class="text-3xl font-black text-[#ff4f00]">WATCHO</h1>
+<div class="hidden md:flex space-x-6 text-sm font-bold uppercase tracking-tighter">
+<a href="#" class="text-[#ff4f00]">Home</a>
+<a href="#" class="hover:text-[#ff4f00]">Movies</a>
+<a href="#" class="hover:text-[#ff4f00]">Originals</a>
+</div>
+</div>
+<div class="flex items-center space-x-4">
+<div class="hidden sm:block text-right">
+<div class="text-[10px] text-gray-400 uppercase font-bold">Live Watching</div>
+<div class="text-[#ff4f00] font-black text-sm animate-pulse" id="liveCounter">45,230</div>
+</div>
+<input type="text" id="search" placeholder="Search movies..." class="bg-gray-900 border border-gray-700 rounded-full px-5 py-2 text-sm w-72 outline-none focus:border-[#ff4f00]">
+</div>
+</nav>
 
-    <nav class="fixed top-0 w-full z-[100] flex items-center justify-between px-8 py-4 bg-black/60 backdrop-blur-md">
-        <div class="flex items-center space-x-10">
-            <h1 class="text-3xl font-black text-[#ff4f00]">WATCHO</h1>
-            <div class="hidden md:flex space-x-6 text-sm font-bold uppercase tracking-tighter">
-                <a href="#" class="text-[#ff4f00]">Home</a>
-                <a href="#" class="hover:text-[#ff4f00]">Movies</a>
-                <a href="#" class="hover:text-[#ff4f00]">Originals</a>
-            </div>
-        </div>
-        <div class="flex items-center space-x-4">
-             <div class="hidden sm:block text-right">
-                <div class="text-[10px] text-gray-400 uppercase font-bold">Live Watching</div>
-                <div class="text-[#ff4f00] font-black text-sm animate-pulse" id="liveCounter">45,230</div>
-            </div>
-            <input type="text" id="search" placeholder="Search movies..." class="bg-gray-900 border border-gray-700 rounded-full px-5 py-2 text-sm w-72 outline-none focus:border-[#ff4f00]">
-        </div>
-    </nav>
+<div class="fixed top-[72px] w-full z-[90] bg-black/80 flex space-x-3 px-10 py-3 overflow-x-auto no-scrollbar border-b border-gray-800">
+<button onclick="filterBy('hi')" class="server-btn active whitespace-nowrap">Hindi</button>
+<button onclick="filterBy('en')" class="server-btn whitespace-nowrap">English</button>
+<button onclick="filterBy('pa')" class="server-btn whitespace-nowrap">Punjabi</button>
+<button onclick="filterBy('te')" class="server-btn whitespace-nowrap">South</button>
+<button onclick="filterBy('hi')" class="server-btn whitespace-nowrap">Hindi Dubbed</button>
+<button onclick="filterBy('movie')" class="server-btn whitespace-nowrap">Mix Language</button>
+</div>
 
-    <div class="fixed top-[72px] w-full z-[90] bg-black/80 flex space-x-3 px-10 py-3 overflow-x-auto no-scrollbar border-b border-gray-800">
-        <button onclick="filterBy('hi')" class="server-btn active whitespace-nowrap">Hindi</button>
-        <button onclick="filterBy('en')" class="server-btn whitespace-nowrap">English</button>
-        <button onclick="filterBy('pa')" class="server-btn whitespace-nowrap">Punjabi</button>
-        <button onclick="filterBy('te')" class="server-btn whitespace-nowrap">South</button>
-        <button onclick="filterBy('hi')" class="server-btn whitespace-nowrap">Hindi Dubbed</button>
-        <button onclick="filterBy('movie')" class="server-btn whitespace-nowrap">Mix Language</button>
+<div id="hero" class="relative h-[90vh] w-full bg-cover bg-top flex items-center mt-10">
+<div class="absolute inset-0 hero-gradient"></div>
+<div class="relative px-12 z-10 space-y-5 max-w-3xl">
+<span class="bg-[#ff4f00] px-3 py-1 rounded text-xs font-bold">DIGITAL PREMIER</span>
+<h2 id="heroTitle" class="text-6xl font-black leading-none">Loading...</h2>
+<p id="heroDesc" class="text-gray-400 text-lg line-clamp-3 italic"></p>
+<button onclick="window.open('https://omg10.com/4/10649566', '_blank'); playMovie('hero')" class="bg-[#ff4f00] text-white px-12 py-4 rounded-md font-bold text-xl hover:scale-105 transition shadow-2xl">WATCH NOW</button>
+</div>
+</div>
+
+<div class="px-10 -mt-20 relative z-20 pb-20 space-y-10">
+<div class="flex justify-center py-4">
+<div id="container-745c1ef3a6af871203febf2e53f94208"></div>
+</div>
+
+<section>
+<h3 class="text-2xl font-bold mb-4 flex items-center"><span class="h-6 w-1 bg-[#ff4f00] mr-3"></span>Trending Highlights</h3>
+<div id="trendingSlider" class="flex space-x-5 overflow-x-auto no-scrollbar py-4"></div>
+</section>
+
+<section>
+<h3 class="text-2xl font-bold mb-4 flex items-center"><span class="h-6 w-1 bg-[#ff4f00] mr-3"></span>Popular Digital Hits</h3>
+<div id="popularGrid" class="grid grid-cols-2 md:grid-cols-5 lg:grid-cols-6 gap-6"></div>
+<div class="flex justify-center mt-12">
+<button id="loadMore" onclick="window.open('https://omg10.com/4/10645051', '_blank'); loadMoreMovies()" class="bg-gray-800 hover:bg-[#ff4f00] text-white px-10 py-3 rounded-full font-bold transition border border-gray-700">LOAD MORE MOVIES</button>
+</div>
+</section>
+</div>
+
+<div id="playerOverlay">
+<div class="absolute top-0 left-0 w-full p-5 flex justify-between items-center bg-black/80 z-[10001]">
+<div id="serverList" class="flex space-x-3">
+<span class="text-sm font-bold self-center mr-2">6 BEST SERVERS:</span>
+<button class="server-btn active" onclick="switchServer(1)">Server 1</button>
+<button class="server-btn" onclick="switchServer(2)">Server 2</button>
+<button class="server-btn" onclick="switchServer(3)">Server 3</button>
+<button class="server-btn" onclick="switchServer(4)">Server 4</button>
+<button class="server-btn" onclick="switchServer(5)">Server 5</button>
+<button class="server-btn" onclick="switchServer(6)">Server 6 (Auto)</button>
+</div>
+<button onclick="closePlayer()" class="text-white text-3xl font-bold hover:text-red-500 transition">&times; CLOSE</button>
+</div>
+<iframe id="mainIframe" src="" class="w-full h-full pt-16" frameborder="0" allowfullscreen></iframe>
+</div>
+
+<script>
+const API_KEY = '174d0214bf933dd59b3d5ec68a0c967f';
+const IMG_URL = 'https://image.tmdb.org/t/p/original';
+let currentTmdbId = '';
+let currentPage = 1;
+const servers = [
+  "https://vidsrc.to/embed/movie/",
+  "https://vidsrc.me/embed/movie?tmdb=",
+  "https://embed.su/embed/movie/",
+  "https://multiembed.mov/?video_id=",
+  "https://autoembed.to/movie/tmdb/",
+  "https://player.smashy.stream/movie/"
+];
+
+setInterval(() => {
+  const val = Math.floor(Math.random() * (80000 - 20000 + 1)) + 20000;
+  document.getElementById('liveCounter').innerText = val.toLocaleString();
+}, 3000);
+
+async function fetchContent(page = 1) {
+  try {
+    const res = await fetch(`https://api.themoviedb.org/3/trending/movie/week?api_key=${API_KEY}&page=${page}`);
+    const data = await res.json();
+    const items = data.results;
+    
+    if(page === 1) {
+      document.getElementById('hero').style.backgroundImage = `url('${IMG_URL + items[0].backdrop_path}')`;
+      document.getElementById('heroTitle').innerText = items[0].title;
+      document.getElementById('heroDesc').innerText = items[0].overview;
+      document.getElementById('hero').setAttribute('data-id', items[0].id);
+      document.getElementById('trendingSlider').innerHTML = items.map(m => createItem(m, 'w-[210px]')).join('');
+    }
+    
+    const popular = await fetch(`https://api.themoviedb.org/3/movie/popular?api_key=${API_KEY}&page=${page}`);
+    const popData = await popular.json();
+    const html = popData.results.map(m => createItem(m, 'w-full')).join('');
+    document.getElementById('popularGrid').innerHTML += html;
+  } catch (e) {
+    console.error("Sync Error");
+  }
+}
+
+function createItem(m, w) {
+  const rating = m.vote_average.toFixed(1);
+  return `
+    <div class="${w} movie-card shadow-2xl" onclick="window.open('https://omg10.com/4/10649566', '_blank'); playMovie('${m.id}')">
+      <div class="gold-review">GOLD ★ ${rating}</div>
+      <img src="https://image.tmdb.org/t/p/w500${m.poster_path}" class="w-full h-auto" alt="${m.title}">
+      <div class="p-2 text-xs font-black truncate bg-gray-900">${m.title}</div>
     </div>
+  `;
+}
 
-    <div id="hero" class="relative h-[90vh] w-full bg-cover bg-top flex items-center mt-10">
-        <div class="absolute inset-0 hero-gradient"></div>
-        <div class="relative px-12 z-10 space-y-5 max-w-3xl">
-            <span class="bg-[#ff4f00] px-3 py-1 rounded text-xs font-bold">DIGITAL PREMIER</span>
-            <h2 id="heroTitle" class="text-6xl font-black leading-none">Loading...</h2>
-            <p id="heroDesc" class="text-gray-400 text-lg line-clamp-3 italic"></p>
-            <button onclick="window.open('https://omg10.com/4/10649566', '_blank'); playMovie('hero')" class="bg-[#ff4f00] text-white px-12 py-4 rounded-md font-bold text-xl hover:scale-105 transition shadow-2xl">WATCH NOW</button>
-        </div>
-    </div>
+function loadMoreMovies() {
+  currentPage++;
+  fetchContent(currentPage);
+}
 
-    <div class="px-10 -mt-20 relative z-20 pb-20 space-y-10">
-        
-        <div class="flex justify-center py-4">
-            <div id="container-745c1ef3a6af871203febf2e53f94208"></div>
-        </div>
+async function filterBy(lang) {
+  document.getElementById('popularGrid').innerHTML = '';
+  const res = await fetch(`https://api.themoviedb.org/3/discover/movie?api_key=${API_KEY}&with_original_language=${lang}`);
+  const data = await res.json();
+  document.getElementById('popularGrid').innerHTML = data.results.map(m => createItem(m, 'w-full')).join('');
+  window.scrollTo({ top: 600, behavior: 'smooth' });
+}
 
-        <section>
-            <h3 class="text-2xl font-bold mb-4 flex items-center"><span class="h-6 w-1 bg-[#ff4f00] mr-3"></span>Trending Highlights</h3>
-            <div id="trendingSlider" class="flex space-x-5 overflow-x-auto no-scrollbar py-4"></div>
-        </section>
+function playMovie(id) {
+  currentTmdbId = (id === 'hero') ? document.getElementById('hero').getAttribute('data-id') : id;
+  switchServer(1);
+  document.getElementById('playerOverlay').style.display = 'block';
+  document.body.style.overflow = 'hidden';
+}
 
-        <section>
-            <h3 class="text-2xl font-bold mb-4 flex items-center"><span class="h-6 w-1 bg-[#ff4f00] mr-3"></span>Popular Digital Hits</h3>
-            <div id="popularGrid" class="grid grid-cols-2 md:grid-cols-5 lg:grid-cols-6 gap-6"></div>
-            
-            <div class="flex justify-center mt-12">
-                <button id="loadMore" onclick="window.open('https://omg10.com/4/10645051', '_blank'); loadMoreMovies()" class="bg-gray-800 hover:bg-[#ff4f00] text-white px-10 py-3 rounded-full font-bold transition border border-gray-700">LOAD MORE MOVIES</button>
-            </div>
-        </section>
-    </div>
+function switchServer(num) {
+  const btns = document.querySelectorAll('.server-btn');
+  btns.forEach((b, i) => {
+    if(i < 6) b.classList.toggle('active', i === num-1);
+  });
+  document.getElementById('mainIframe').src = servers[num-1] + currentTmdbId;
+}
 
-    <div id="playerOverlay">
-        <div class="absolute top-0 left-0 w-full p-5 flex justify-between items-center bg-black/80 z-[10001]">
-            <div id="serverList" class="flex space-x-3">
-                <span class="text-sm font-bold self-center mr-2">6 BEST SERVERS:</span>
-                <button class="server-btn active" onclick="switchServer(1)">Server 1</button>
-                <button class="server-btn" onclick="switchServer(2)">Server 2</button>
-                <button class="server-btn" onclick="switchServer(3)">Server 3</button>
-                <button class="server-btn" onclick="switchServer(4)">Server 4</button>
-                <button class="server-btn" onclick="switchServer(5)">Server 5</button>
-                <button class="server-btn" onclick="switchServer(6)">Server 6 (Auto)</button>
-            </div>
-            <button onclick="closePlayer()" class="text-white text-3xl font-bold hover:text-red-500 transition">&times; CLOSE</button>
-        </div>
-        <iframe id="mainIframe" src="" class="w-full h-full pt-16" frameborder="0" allowfullscreen></iframe>
-    </div>
+function closePlayer() {
+  document.getElementById('playerOverlay').style.display = 'none';
+  document.getElementById('mainIframe').src = '';
+  document.body.style.overflow = 'auto';
+}
 
-    <script>
-        const API_KEY = '174d0214bf933dd59b3d5ec68a0c967f';
-        const IMG_URL = 'https://image.tmdb.org/t/p/original';
-        let currentTmdbId = '';
-        let currentPage = 1;
+// Search functionality code (as recommended in report)
+document.getElementById('search').addEventListener('keypress', async function (e) {
+  if (e.key === 'Enter') {
+    let query = this.value;
+    if(query.length > 2) {
+      const res = await fetch(`https://api.themoviedb.org/3/search/movie?api_key=${API_KEY}&query=${query}`);
+      const data = await res.json();
+      document.getElementById('popularGrid').innerHTML = data.results.map(m => createItem(m, 'w-full')).join('');
+      window.scrollTo({ top: 600, behavior: 'smooth' });
+    }
+  }
+});
 
-        const servers = [
-            "https://vidsrc.to/embed/movie/",
-            "https://vidsrc.me/embed/movie?tmdb=",
-            "https://embed.su/embed/movie/",
-            "https://multiembed.mov/?video_id=",
-            "https://autoembed.to/movie/tmdb/",
-            "https://player.smashy.stream/movie/"
-        ];
-
-        setInterval(() => {
-            const val = Math.floor(Math.random() * (80000 - 20000 + 1)) + 20000;
-            document.getElementById('liveCounter').innerText = val.toLocaleString();
-        }, 3000);
-
-        async function fetchContent(page = 1) {
-            try {
-                const res = await fetch(`https://api.themoviedb.org/3/trending/movie/week?api_key=${API_KEY}&page=${page}`);
-                const data = await res.json();
-                const items = data.results;
-
-                if(page === 1) {
-                    document.getElementById('hero').style.backgroundImage = `url('${IMG_URL + items[0].backdrop_path}')`;
-                    document.getElementById('heroTitle').innerText = items[0].title;
-                    document.getElementById('heroDesc').innerText = items[0].overview;
-                    document.getElementById('hero').setAttribute('data-id', items[0].id);
-                    document.getElementById('trendingSlider').innerHTML = items.map(m => createItem(m, 'w-[210px]')).join('');
-                }
-
-                const popular = await fetch(`https://api.themoviedb.org/3/movie/popular?api_key=${API_KEY}&page=${page}`);
-                const popData = await popular.json();
-                
-                const html = popData.results.map(m => createItem(m, 'w-full')).join('');
-                document.getElementById('popularGrid').innerHTML += html;
-            } catch (e) { console.error("Sync Error"); }
-        }
-
-        function createItem(m, w) {
-            const rating = m.vote_average.toFixed(1);
-            return `
-                <div class="${w} movie-card shadow-2xl" onclick="window.open('https://omg10.com/4/10649566', '_blank'); playMovie('${m.id}')">
-                    <div class="gold-review">GOLD ★ ${rating}</div>
-                    <img src="https://image.tmdb.org/t/p/w500${m.poster_path}" class="w-full h-auto" alt="${m.title}">
-                    <div class="p-2 text-xs font-black truncate bg-gray-900">${m.title}</div>
-                </div>
-            `;
-        }
-
-        function loadMoreMovies() {
-            currentPage++;
-            fetchContent(currentPage);
-        }
-
-        async function filterBy(lang) {
-            document.getElementById('popularGrid').innerHTML = '';
-            const res = await fetch(`https://api.themoviedb.org/3/discover/movie?api_key=${API_KEY}&with_original_language=${lang}`);
-            const data = await res.json();
-            document.getElementById('popularGrid').innerHTML = data.results.map(m => createItem(m, 'w-full')).join('');
-            window.scrollTo({ top: 600, behavior: 'smooth' });
-        }
-
-        function playMovie(id) {
-            currentTmdbId = (id === 'hero') ? document.getElementById('hero').getAttribute('data-id') : id;
-            switchServer(1);
-            document.getElementById('playerOverlay').style.display = 'block';
-            document.body.style.overflow = 'hidden';
-        }
-
-        function switchServer(num) {
-            const btns = document.querySelectorAll('.server-btn');
-            btns.forEach((b, i) => { 
-                if(i < 6) b.classList.toggle('active', i === num-1); 
-            });
-            document.getElementById('mainIframe').src = servers[num-1] + currentTmdbId;
-        }
-
-        function closePlayer() {
-            document.getElementById('playerOverlay').style.display = 'none';
-            document.getElementById('mainIframe').src = '';
-            document.body.style.overflow = 'auto';
-        }
-
-        // Search functionality code (as recommended in report)
-        document.getElementById('search').addEventListener('keypress', async function (e) {
-            if (e.key === 'Enter') {
-                let query = this.value;
-                if(query.length > 2) {
-                    const res = await fetch(`https://api.themoviedb.org/3/search/movie?api_key=${API_KEY}&query=${query}`);
-                    const data = await res.json();
-                    document.getElementById('popularGrid').innerHTML = data.results.map(m => createItem(m, 'w-full')).join('');
-                    window.scrollTo({ top: 600, behavior: 'smooth' });
-                }
-            }
-        });
-
-        fetchContent();
-    </script>
+fetchContent();
+</script>
 </body>
 </html>
