@@ -1,4 +1,7 @@
 User-agent: *
 Allow: /
+Disallow: /cdn-cgi/
+Disallow: /api/
 
-Sitemap: https://dhamtan.github.io/zzz-promovies/sitemap.xml
+# Sitemap Link
+Sitemap: https://zzz-promovies.page.dev/sitemap.xml
