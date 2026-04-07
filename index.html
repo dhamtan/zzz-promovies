@@ -12,7 +12,7 @@
     
     <meta name="description" content="Watch the latest Hollywood, Bollywood, South Indian and Punjabi movies with Hindi web series in HD. ZZZ-PROMOVIES is your best platform for free high-quality streaming.">
     
-    <link rel="canonical" href="https://zzz-promovies.page.dev/">
+    <link rel="canonical" id="meta-canon" href="">
 
     <script src="https://cdn.tailwindcss.com"></script>
     <script async="async" data-cfasync="false" src="https://pl28735283.effectivegatecpm.com/745c1ef3a6af871203febf2e53f94208/invoke.js"></script>
@@ -36,7 +36,7 @@
 
 <nav class="fixed top-0 w-full z-[100] flex items-center justify-between px-6 py-4 bg-black/60 backdrop-blur-md border-b border-white/5">
     <div class="flex items-center space-x-6">
-        <h1 class="text-2xl font-black text-[#ff4f00] italic tracking-tighter cursor-pointer" onclick="location.reload()">ZZZ-PROMOVIES</h1>
+        <h1 class="text-2xl font-black text-[#ff4f00] italic tracking-tighter cursor-pointer site-name" onclick="location.reload()">ZZZ-PROMOVIES</h1>
     </div>
     <div class="flex items-center space-x-4">
         <div class="hidden sm:block text-right">
@@ -59,7 +59,7 @@
 <div id="hero" class="relative h-[80vh] w-full bg-cover bg-top flex items-center">
     <div class="absolute inset-0 hero-gradient"></div>
     <div class="relative px-8 z-10 space-y-4 max-w-3xl mt-20">
-        <span class="bg-[#ff4f00] px-3 py-1 rounded text-[10px] font-black uppercase">Trending Now on ZZZ-PROMOVIES</span>
+        <span class="bg-[#ff4f00] px-3 py-1 rounded text-[10px] font-black uppercase trending-on">Trending Now on ZZZ-PROMOVIES</span>
         <h2 id="heroTitle" class="text-4xl md:text-6xl font-black leading-tight uppercase">Loading Movie...</h2>
         <p id="heroDesc" class="text-gray-400 text-sm md:text-base line-clamp-3 italic font-medium"></p>
         <button onclick="playMovie('hero')" class="bg-[#ff4f00] text-white px-10 py-3 rounded-lg font-black text-lg hover:scale-105 transition uppercase">Watch Premier / Play</button>
@@ -68,7 +68,7 @@
 
 <div class="px-6 -mt-16 relative z-20 pb-20 space-y-10">
     <section>
-        <h3 class="text-xl font-black mb-4 flex items-center uppercase tracking-widest"><span class="h-5 w-1 bg-[#ff4f00] mr-3"></span>Latest Releases on ZZZ-PROMOVIES</h3>
+        <h3 class="text-xl font-black mb-4 flex items-center uppercase tracking-widest"><span class="h-5 w-1 bg-[#ff4f00] mr-3"></span>Latest Releases</h3>
         <div id="trendingSlider" class="flex space-x-4 overflow-x-auto no-scrollbar py-2"></div>
     </section>
 
@@ -102,9 +102,20 @@
 </div>
 
 <script>
+    // AUTO-SITE NAME DETECTION (KISI BHI SITE PE DALO, NAAM KHUD BADLEGA)
+    const hostname = window.location.hostname.split('.')[0].toUpperCase();
+    document.querySelectorAll('.site-name').forEach(el => el.innerText = hostname);
+    document.querySelectorAll('.trending-on').forEach(el => el.innerText = `Trending Now on ${hostname}`);
+    document.getElementById('meta-canon').href = window.location.href;
+
     const API_KEY = '174d0214bf933dd59b3d5ec68a0c967f';
     const IMG_URL = 'https://image.tmdb.org/t/p/original';
     let currentTmdbId = '', currentPage = 1;
+    
+    // URL PARAMETER DETECTION FOR GOOGLE INDEXING
+    const urlParams = new URLSearchParams(window.location.search);
+    const movieID = urlParams.get('m') || urlParams.get('id');
+
     const servers = [
         "https://vidsrc.to/embed/movie/",
         "https://vidsrc.me/embed/movie?tmdb=",
@@ -127,6 +138,9 @@
                 document.getElementById('heroDesc').innerText = items[0].overview;
                 document.getElementById('hero').setAttribute('data-id', items[0].id);
                 document.getElementById('trendingSlider').innerHTML = items.slice(0, 10).map(m => createItem(m, 'w-[160px] md:w-[200px]')).join('');
+                
+                // AUTO-PLAY IF OPENED FROM GOOGLE/SITEMAP
+                if(movieID) playMovie(movieID);
             }
             const html = items.map(m => createItem(m, 'w-full')).join('');
             document.getElementById('popularGrid').innerHTML += html;
@@ -145,6 +159,10 @@
 
     function playMovie(id) {
         currentTmdbId = (id === 'hero') ? document.getElementById('hero').getAttribute('data-id') : id;
+        
+        // PUSH URL FOR GOOGLE BOT TO SEE INDIVIDUAL PAGES
+        window.history.pushState({}, '', '?m=' + currentTmdbId);
+        
         switchServer(1);
         document.getElementById('playerOverlay').style.display = 'block';
         document.body.style.overflow = 'hidden';
@@ -160,6 +178,7 @@
         document.getElementById('playerOverlay').style.display = 'none';
         document.getElementById('mainIframe').src = '';
         document.body.style.overflow = 'auto';
+        window.history.pushState({}, '', window.location.pathname);
     }
 
     function loadMoreMovies() { currentPage++; fetchContent(currentPage); }
@@ -174,8 +193,9 @@
 
     function showModal(type) {
         const body = document.getElementById('modalBody');
+        const sName = window.location.hostname.split('.')[0].toUpperCase();
         body.innerHTML = type === 'about' ? 
-            `<h2 class="text-xl font-black text-[#ff4f00] mb-4 uppercase italic">About ZZZ-PROMOVIES</h2><p class="text-sm text-gray-400 font-medium leading-relaxed">ZZZ-PROMOVIES offers the best HD streaming for Hindi, Punjabi, and South Indian movies. We are a search index for third-party servers and do not host copyrighted files.</p>` :
+            `<h2 class="text-xl font-black text-[#ff4f00] mb-4 uppercase italic">About ${sName}</h2><p class="text-sm text-gray-400 font-medium leading-relaxed">${sName} offers the best HD streaming for Hindi, Punjabi, and South Indian movies. We are a search index for third-party servers and do not host copyrighted files.</p>` :
             `<h2 class="text-xl font-black text-[#ff4f00] mb-4 uppercase italic">Support & Contact</h2><p class="text-sm font-bold">Official Email: HELP.WOWMOVIES@GMAIL.COM</p>`;
         document.getElementById('customModal').style.display = 'flex';
     }
